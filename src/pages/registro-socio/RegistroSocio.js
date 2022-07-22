@@ -11,6 +11,7 @@ const RegistroSocio = () => {
     dni: "",
     fechaInicio: "",
     tipoPlan: "",
+    monto: ""
   });
 
   const handleInputChange = (e) => {
@@ -80,6 +81,14 @@ const RegistroSocio = () => {
       </DropdownButton>
       <br></br>
       <h4>Plan seleccionado:</h4><p>{tipoPlanMostrar}</p>
+      <Form.Label>Monto del Plan (S/.)</Form.Label>
+      <Form.Control
+        type="number"
+        id="inputMonto"
+        name="monto"
+        value={values.monto}
+        onChange={handleInputChange}
+      />
       <br></br>
       <Button variant="info" onClick={handleSubmit}>
         Registrar
