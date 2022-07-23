@@ -1,5 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -11,9 +12,10 @@ const firebaseConfig = {
   projectId: "gymsystem-6dd3d",
   storageBucket: "gymsystem-6dd3d.appspot.com",
   messagingSenderId: "998342429842",
-  appId: "1:998342429842:web:56938aa9c434680a256a4b"
+  appId: "1:998342429842:web:56938aa9c434680a256a4b",
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-export const db = app.firestore();
+const db = getFirestore(app);
+export { db };
