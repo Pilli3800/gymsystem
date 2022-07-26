@@ -2,12 +2,20 @@ import React, { useState, useEffect } from "react";
 import { Button, Table } from "react-bootstrap";
 import { db } from "../../services/firebase";
 import { collection, getDocs } from "firebase/firestore";
+import { MoonLoader } from "react-spinners";
 
 const Reporte = () => {
   const getPostsFromFirebase = [];
   const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const handleClick = async (e) => {
+  const override = {
+    display: "block",
+    margin: "20% auto"
+  };
+  
+
+  const fetchFirebase = async () => {
     const response = await getDocs(collection(db, "socios"));
     response.docs.forEach((doc) => {
       //console.log(item.id, "=>", item.data());
@@ -16,8 +24,22 @@ const Reporte = () => {
         key: doc.id,
       });
       setPosts(getPostsFromFirebase);
+      setLoading(false);
     });
   };
+
+  // useEffect(() => {
+  //   fetchFirebase();
+  // }, [loading]);
+
+  useEffect(() => {
+    fetchFirebase();
+    return () => fetchFirebase();
+  }, [loading]);
+
+  if (loading) {
+    return <MoonLoader speed={1} loading={loading} cssOverride={override} size={50} />;
+  }
 
   function compareDates(e) {
     let response = false;
@@ -38,13 +60,10 @@ const Reporte = () => {
     return response;
   }
 
-  console.log(posts);
   return (
     <>
       <div>
-        <Button variant="info" onClick={handleClick}>
-          Generar Reporte
-        </Button>
+        <Button variant="info">Generar Reporte</Button>
       </div>
       <Table>
         <thead>
