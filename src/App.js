@@ -1,7 +1,7 @@
 import "./App.css";
 import {Routes, Route} from 'react-router-dom'
 import RegistroSocio from "../src/pages/registro-socio/RegistroSocio"
-import ActualizacionSocio from "./pages/actualizacion-socio/ActualizacionSocio";
+import Reporte from "./pages/reporte/Reporte";
 
 function App() {
   return (
@@ -9,7 +9,7 @@ function App() {
         <div className="App">
           <Routes>
             <Route exact path="/registro" element={<RegistroSocio/>} />
-            <Route exact path="/actualizacion" element={<ActualizacionSocio/>} />
+            <Route exact path="/reporte" element={<Reporte/>} />
           </Routes>
         </div>
     </>

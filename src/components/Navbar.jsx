@@ -10,15 +10,15 @@ function Navbar() {
         </Nav.Link>
       </Nav.Item>
       <Nav.Item>
-        <Nav.Link eventKey="actualizacion" as={NavLink} to="/actualizacion">
+        <Nav.Link eventKey="actualizacion" as={NavLink} to="/actualizacion" disabled>
           Actualización Socio
         </Nav.Link>
       </Nav.Item>
       <Nav.Item>
-        <Nav.Link eventKey="link-2" as={NavLink} to="/asistencia">Asistencia</Nav.Link>
+        <Nav.Link eventKey="link-2" as={NavLink} to="/asistencia" disabled>Asistencia</Nav.Link>
       </Nav.Item>
       <Nav.Item>
-        <Nav.Link eventKey="link-3" as={NavLink} to="/reportes">Reportes</Nav.Link>
+        <Nav.Link eventKey="link-3" as={NavLink} to="/reporte">Reportes</Nav.Link>
       </Nav.Item>
     </Nav>
   );

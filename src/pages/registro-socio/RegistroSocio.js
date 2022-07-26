@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { Form, Dropdown, DropdownButton, Button } from "react-bootstrap";
-import { collection, addDoc } from "firebase/firestore";
+//import { collection, addDoc } from "firebase/firestore";
 import { db } from "../../services/firebase";
+import { doc, setDoc } from "firebase/firestore";
+import Swal from 'sweetalert2'
 
 const RegistroSocio = () => {
   const [tipoPlanMostrar, settipoPlanMostrar] = useState(
@@ -30,12 +32,24 @@ const RegistroSocio = () => {
     // const db = getDatabase();
     // set(ref(db, "socios/ " + linkObject.dni), linkObject);
     try {
-      const docRef = await addDoc(collection(db, "socios/" + linkObject.dni), {
-        linkObject,
+      const docRef = await setDoc(doc(db, "socios/", linkObject.dni), {
+        linkObject
       });
-      console.log("Socio registrado con el ID: ", docRef.id);
+      console.log("Socio registrado con el ID: ", linkObject.dni);
+      Swal.fire({
+        title: '¡Socio Agregado!',
+        text: 'El socio ha sido agregado.',
+        icon: 'success',
+        confirmButtonText: 'Cool'
+      })
     } catch (e) {
       console.error("Error al registrar socio: ", e);
+      Swal.fire({
+        title: 'Error!',
+        text: '¡El socio ya existe!',
+        icon: 'error',
+        confirmButtonText: 'Ok'
+      })
     }
     console.log(linkObject);
     console.log("Nuevo Socio Agregado");
@@ -95,7 +109,12 @@ const RegistroSocio = () => {
       values.monto === "" ||
       values.fechaFin === ""
     ) {
-      alert("No dejar campos vacios.");
+      Swal.fire({
+        title: 'Error!',
+        text: '¡No dejes campos vacios!',
+        icon: 'error',
+        confirmButtonText: 'Ok'
+      })
     } else {
       addSocio(values);
     }
