@@ -3,7 +3,7 @@ import { Form, Dropdown, DropdownButton, Button } from "react-bootstrap";
 //import { collection, addDoc } from "firebase/firestore";
 import { db } from "../../services/firebase";
 import { doc, setDoc } from "firebase/firestore";
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
 
 const RegistroSocio = () => {
   const [tipoPlanMostrar, settipoPlanMostrar] = useState(
