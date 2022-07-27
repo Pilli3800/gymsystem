@@ -3,6 +3,7 @@ import { Button, Table } from "react-bootstrap";
 import { db } from "../../services/firebase";
 import { collection, getDocs } from "firebase/firestore";
 import { MoonLoader } from "react-spinners";
+import ReactHTMLTableToExcel from "react-html-table-to-excel";
 
 const Reporte = () => {
   const getPostsFromFirebase = [];
@@ -11,9 +12,8 @@ const Reporte = () => {
 
   const override = {
     display: "block",
-    margin: "20% auto"
+    margin: "20% auto",
   };
-  
 
   const fetchFirebase = async () => {
     const response = await getDocs(collection(db, "socios"));
@@ -38,7 +38,14 @@ const Reporte = () => {
   }, [loading]);
 
   if (loading) {
-    return <MoonLoader speed={1} loading={loading} cssOverride={override} size={50} />;
+    return (
+      <MoonLoader
+        speed={1}
+        loading={loading}
+        cssOverride={override}
+        size={50}
+      />
+    );
   }
 
   function compareDates(e) {
@@ -62,10 +69,18 @@ const Reporte = () => {
 
   return (
     <>
-      <div>
-        <Button variant="info">Generar Reporte</Button>
+    <div className="m-5 text-center">
+      <h1 className="m-5">Reporte</h1>
+      <ReactHTMLTableToExcel
+        id="test-table-xls-button"
+        className="download-table-xls-button"
+        table="table-to-xls"
+        filename="Socios"
+        sheet="Socios"
+        buttonText="Descargar Reporte en Excel"
+      />
       </div>
-      <Table>
+      <Table id="table-to-xls">
         <thead>
           <tr>
             <th>Activo</th>
