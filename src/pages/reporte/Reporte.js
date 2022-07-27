@@ -72,8 +72,10 @@ const Reporte = () => {
             <th>DNI</th>
             <th>Nombres</th>
             <th>Apellidos</th>
-            <th>tipoPlan</th>
+            <th>Tipo de Plan</th>
             <th>Monto Pagado</th>
+            <th>Fecha Inicio</th>
+            <th>Fecha Fin</th>
           </tr>
         </thead>
         <tbody>
@@ -85,6 +87,8 @@ const Reporte = () => {
               <td>{post.linkObject.apellidos}</td>
               <td>{post.linkObject.tipoPlan}</td>
               <td>S/. {post.linkObject.monto}</td>
+              <td>{post.linkObject.fechaInicio}</td>
+              <td>{post.linkObject.fechaFin}</td>
             </tr>
           ))}
         </tbody>

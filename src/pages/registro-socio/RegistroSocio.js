@@ -3,8 +3,9 @@ import { Form, Dropdown, DropdownButton, Button } from "react-bootstrap";
 //import { collection, addDoc } from "firebase/firestore";
 import { db } from "../../services/firebase";
 import { doc, setDoc } from "firebase/firestore";
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
 
+export const blockInvalidChar = e => ['e', 'E', '+', '-'].includes(e.key) && e.preventDefault();
 const RegistroSocio = () => {
   const [tipoPlanMostrar, settipoPlanMostrar] = useState(
     "No se ha seleccionado un plan."
@@ -33,23 +34,23 @@ const RegistroSocio = () => {
     // set(ref(db, "socios/ " + linkObject.dni), linkObject);
     try {
       const docRef = await setDoc(doc(db, "socios/", linkObject.dni), {
-        linkObject
+        linkObject,
       });
       console.log("Socio registrado con el ID: ", linkObject.dni);
       Swal.fire({
-        title: '¡Socio Agregado!',
-        text: 'El socio ha sido agregado.',
-        icon: 'success',
-        confirmButtonText: 'Cool'
-      })
+        title: "¡Socio Agregado!",
+        text: "El socio ha sido agregado.",
+        icon: "success",
+        confirmButtonText: "Ok",
+      });
     } catch (e) {
       console.error("Error al registrar socio: ", e);
       Swal.fire({
-        title: 'Error!',
-        text: '¡El socio ya existe!',
-        icon: 'error',
-        confirmButtonText: 'Ok'
-      })
+        title: "Error!",
+        text: "¡El socio ya existe!",
+        icon: "error",
+        confirmButtonText: "Ok",
+      });
     }
     console.log(linkObject);
     console.log("Nuevo Socio Agregado");
@@ -110,11 +111,11 @@ const RegistroSocio = () => {
       values.fechaFin === ""
     ) {
       Swal.fire({
-        title: 'Error!',
-        text: '¡No dejes campos vacios!',
-        icon: 'error',
-        confirmButtonText: 'Ok'
-      })
+        title: "Error!",
+        text: "¡No dejes campos vacios!",
+        icon: "error",
+        confirmButtonText: "Ok",
+      });
     } else {
       addSocio(values);
     }
@@ -137,6 +138,11 @@ const RegistroSocio = () => {
         onChange={handleInputChange}
         name="nombres"
         value={values.nombres}
+        onKeyPress={(event) => {
+          if (/[0-9]/.test(event.key)) {
+            event.preventDefault();
+          }
+        }}
       />
       <br></br>
       <Form.Label>Apellidos del Socio</Form.Label>
@@ -146,6 +152,11 @@ const RegistroSocio = () => {
         name="apellidos"
         value={values.apellidos}
         onChange={handleInputChange}
+        onKeyPress={(event) => {
+          if (/[0-9]/.test(event.key)) {
+            event.preventDefault();
+          }
+        }}
       />
       <br></br>
       <Form.Label>DNI del Socio</Form.Label>
@@ -155,6 +166,14 @@ const RegistroSocio = () => {
         name="dni"
         value={values.dni}
         onChange={handleInputChange}
+        maxLength="8"
+        pattern="[0-9]*"
+        onKeyPress={(event) => {
+          if (!/[0-9]/.test(event.key)) {
+            event.preventDefault();
+          }
+        }}
+        minLength="8"
       />
       <br></br>
       <Form.Label>Fecha de Inicio</Form.Label>
@@ -189,6 +208,7 @@ const RegistroSocio = () => {
         name="monto"
         value={values.monto}
         onChange={handleInputChange}
+        onKeyDown={blockInvalidChar}
       />
       <br></br>
       <Button variant="info" onClick={handleSubmit}>
