@@ -17,7 +17,7 @@ const Eliminar = () => {
   const handleClick = async () => {
     if (dniaBorrar === "" || dniaBorrar.length < 8) {
       Swal.fire({
-        title: "Debes colocar un DNI válido",
+        title: "Debe colocar un DNI válido",
         text: "No puedes dejar el campo vacio o tener menos de 8 digitos.",
         icon: "error",
         confirmButtonText: "Ok",

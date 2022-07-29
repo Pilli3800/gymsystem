@@ -11,11 +11,11 @@ function Navbar() {
       </Nav.Item>
       <Nav.Item>
         <Nav.Link
-          eventKey="eliminar"
+          eventKey="editar"
           as={NavLink}
-          to="/eliminar"
+          to="/editar"
         >
-          Eliminar Socio
+          Editar/Eliminar Socio
         </Nav.Link>
       </Nav.Item>
       <Nav.Item>

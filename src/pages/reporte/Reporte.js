@@ -22,15 +22,26 @@ const Reporte = () => {
   const fetchFirebase = async () => {
     setLoading(true);
     const response = await getDocs(collection(db, "socios"));
-    response.docs.forEach((doc) => {
-      //console.log(item.id, "=>", item.data());
-      getPostsFromFirebase.push({
-        ...doc.data(),
-        key: doc.id,
-      });
-      setPosts(getPostsFromFirebase);
+    if (response.docs.length === 0) {
+      setPosts([]);
       setLoading(false);
-    });
+      Swal.fire({
+        title: "Error",
+        text: "No hay socios registrados en la base de datos.",
+        icon: "error",
+        confirmButtonText: "Ok",
+      });
+    } else {
+      response.docs.forEach((doc) => {
+        //console.log(item.id, "=>", item.data());
+        getPostsFromFirebase.push({
+          ...doc.data(),
+          key: doc.id,
+        });
+        setPosts(getPostsFromFirebase);
+        setLoading(false);
+      });
+    }
   };
 
   const fetchFirebasebyMonth = async (mesOpcion) => {
@@ -109,28 +120,30 @@ const Reporte = () => {
       <div className="m-5 text-center">
         <h1 className="m-5">Reporte</h1>
         <div className="d-flex flex-row justify-content-center">
-        <Button className="boton" onClick={handleClick}>Reporte General</Button>
-        <DropdownButton
-          id="dropdown-mes-reporte"
-          title="Seleccionar Mes"
-          name="mesReporte"
-          onSelect={handleSelect}
-          className="boton"
-          variant="dark"
-        >
-          <Dropdown.Item eventKey="1">Enero</Dropdown.Item>
-          <Dropdown.Item eventKey="2">Febrero</Dropdown.Item>
-          <Dropdown.Item eventKey="3">Marzo</Dropdown.Item>
-          <Dropdown.Item eventKey="4">Abril</Dropdown.Item>
-          <Dropdown.Item eventKey="5">Mayo</Dropdown.Item>
-          <Dropdown.Item eventKey="6">Junio</Dropdown.Item>
-          <Dropdown.Item eventKey="7">Julio</Dropdown.Item>
-          <Dropdown.Item eventKey="8">Agosto</Dropdown.Item>
-          <Dropdown.Item eventKey="9">Setiembre</Dropdown.Item>
-          <Dropdown.Item eventKey="10">Octubre</Dropdown.Item>
-          <Dropdown.Item eventKey="11">Noviembre</Dropdown.Item>
-          <Dropdown.Item eventKey="12">Diciembre</Dropdown.Item>
-        </DropdownButton>
+          <Button className="boton" onClick={handleClick}>
+            Reporte General
+          </Button>
+          <DropdownButton
+            id="dropdown-mes-reporte"
+            title="Seleccionar Mes"
+            name="mesReporte"
+            onSelect={handleSelect}
+            className="boton"
+            variant="dark"
+          >
+            <Dropdown.Item eventKey="1">Enero</Dropdown.Item>
+            <Dropdown.Item eventKey="2">Febrero</Dropdown.Item>
+            <Dropdown.Item eventKey="3">Marzo</Dropdown.Item>
+            <Dropdown.Item eventKey="4">Abril</Dropdown.Item>
+            <Dropdown.Item eventKey="5">Mayo</Dropdown.Item>
+            <Dropdown.Item eventKey="6">Junio</Dropdown.Item>
+            <Dropdown.Item eventKey="7">Julio</Dropdown.Item>
+            <Dropdown.Item eventKey="8">Agosto</Dropdown.Item>
+            <Dropdown.Item eventKey="9">Setiembre</Dropdown.Item>
+            <Dropdown.Item eventKey="10">Octubre</Dropdown.Item>
+            <Dropdown.Item eventKey="11">Noviembre</Dropdown.Item>
+            <Dropdown.Item eventKey="12">Diciembre</Dropdown.Item>
+          </DropdownButton>
         </div>
         <hr></hr>
         <ReactHTMLTableToExcel
@@ -139,7 +152,7 @@ const Reporte = () => {
           table="table-to-xls"
           filename="Socios"
           sheet="Socios"
-          buttonText={ <Button variant="success">Descargar Excel</Button>}
+          buttonText={<Button variant="success">Descargar Excel</Button>}
         />
       </div>
       <Table id="table-to-xls">
