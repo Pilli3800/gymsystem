@@ -10,21 +10,17 @@ function Navbar() {
         </Nav.Link>
       </Nav.Item>
       <Nav.Item>
-        <Nav.Link
-          eventKey="editar"
-          as={NavLink}
-          to="/editar"
-        >
+        <Nav.Link eventKey="editar" as={NavLink} to="/editar">
           Editar/Eliminar Socio
         </Nav.Link>
       </Nav.Item>
       <Nav.Item>
-        <Nav.Link eventKey="link-2" as={NavLink} to="/asistencia" disabled>
+        <Nav.Link eventKey="asistencia" as={NavLink} to="/asistencia">
           Asistencia
         </Nav.Link>
       </Nav.Item>
       <Nav.Item>
-        <Nav.Link eventKey="link-3" as={NavLink} to="/reporte">
+        <Nav.Link eventKey="reporte" as={NavLink} to="/reporte">
           Reportes
         </Nav.Link>
       </Nav.Item>

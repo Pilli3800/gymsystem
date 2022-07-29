@@ -4,6 +4,7 @@ import RegistroSocio from "./pages/registro-socio/RegistroSocio";
 import Reporte from "./pages/reporte/Reporte";
 import Eliminar from "./pages/eliminar-socio/Eliminar";
 import EditarSocio from "./pages/editar-socio/EditarSocio";
+import AsistenciaSocio from "./pages/asistencia-socio/AsistenciaSocio";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           />
           <Route exact path="/registro" element={<RegistroSocio />} />
           <Route exact path="/editar" element={<EditarSocio />} />
+          <Route exact path="/asistencia" element={<AsistenciaSocio />} />
           <Route exact path="/reporte" element={<Reporte />} />
         </Routes>
       </div>
