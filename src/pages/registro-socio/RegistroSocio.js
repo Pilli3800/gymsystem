@@ -29,14 +29,27 @@ const RegistroSocio = () => {
     monto: "",
   });
 
+  function getMonth(date){
+    let mes = new Date(date);
+    let response = mes.getMonth()+1;
+    return response;
+  }
+
   const addSocio = async (linkObject) => {
     // const db = getDatabase();
     // set(ref(db, "socios/ " + linkObject.dni), linkObject);
     try {
-      const docRef = await setDoc(doc(db, "socios/", linkObject.dni), {
-        linkObject,
+      const docRef = await setDoc(doc(db, "socios/", values.dni), {
+        nombres: values.nombres,
+        apellidos: values.apellidos,
+        dni: values.dni,
+        fechaInicio: values.fechaInicio,
+        fechaFin: values.fechaFin,
+        tipoPlan: values.tipoPlan,
+        mes: getMonth(values.fechaInicio),
+        monto: values.monto,
       });
-      console.log("Socio registrado con el ID: ", linkObject.dni);
+      console.log("Socio registrado con el ID: ", values.dni);
       Swal.fire({
         title: "¡Socio Agregado!",
         text: "El socio ha sido agregado.",
