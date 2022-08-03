@@ -6,13 +6,12 @@ import { getFirestore } from "firebase/firestore";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyDrQ1hfe_uFpumjNIGB3oaC9CnlCcJ0q6g",
-  authDomain: "gymsystem-6dd3d.firebaseapp.com",
-  databaseURL: "https://gymsystem-6dd3d-default-rtdb.firebaseio.com",
-  projectId: "gymsystem-6dd3d",
-  storageBucket: "gymsystem-6dd3d.appspot.com",
-  messagingSenderId: "998342429842",
-  appId: "1:998342429842:web:56938aa9c434680a256a4b",
+  apiKey: "AIzaSyBf151KM4F08EsuzmgFKZ6KBZH4UFo3Lxo",
+  authDomain: "templo-forgym.firebaseapp.com",
+  projectId: "templo-forgym",
+  storageBucket: "templo-forgym.appspot.com",
+  messagingSenderId: "336639552534",
+  appId: "1:336639552534:web:276c700cd54d9815239937"
 };
 
 // Initialize Firebase
