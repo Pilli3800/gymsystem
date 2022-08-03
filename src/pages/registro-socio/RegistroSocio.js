@@ -4,6 +4,7 @@ import { Form, Dropdown, DropdownButton, Button } from "react-bootstrap";
 import { db } from "../../services/firebase";
 import { doc, setDoc } from "firebase/firestore";
 import Swal from "sweetalert2";
+import { jsPDF } from "jspdf";
 
 export const blockInvalidChar = (e) =>
   ["e", "E", "+", "-"].includes(e.key) && e.preventDefault();
@@ -30,6 +31,33 @@ const RegistroSocio = () => {
     tipoPlan: "",
     monto: "",
   });
+
+  function today() {
+    var today = new Date();
+    var now = today.toLocaleString();
+    return now;
+  }
+
+  const generarBoleta = () => {
+    const doc = new jsPDF();
+    var img = new Image;
+    img.src = "//i.imgur.com/tqG1njP.png";  // some random imgur image
+    doc.addImage(img, 25, 15,20, 20);
+    doc.setFontSize(10);
+    doc.rect(15, 10, 180, 140);
+    doc.text(84, 20, "Comprobante de Pago");
+    doc.text(92, 25, "GymSystem");
+    doc.text(88, 30, today().toString());
+    doc.text(20, 50, `Nombres: ${values.nombres}`);
+    doc.text(20, 60, `Apellidos: ${values.apellidos}`);
+    doc.text(20, 70, `DNI: ${values.dni}`);
+    doc.text(20, 80, `Teléfono: ${values.celular}`);
+    doc.text(20, 90, `Fecha de Inicio: ${values.fechaInicio}`);
+    doc.text(20, 100, `Fecha de Fin: ${values.fechaFin}`);
+    doc.text(20, 110, `Tipo de Plan: ${values.tipoPlan}`);
+    doc.text(20, 120, `Monto pagado: S/. ${values.tipoPlan} nuevos soles.`);
+    doc.save(`${values.dni}-boleta.pdf`);
+  };
 
   function getMonth(date) {
     let mes = new Date(date);
@@ -253,7 +281,9 @@ const RegistroSocio = () => {
       <Button variant="info" onClick={handleSubmit}>
         Registrar
       </Button>{" "}
-      <h2>{}</h2>
+      <Button variant="success" onClick={generarBoleta}>
+        Generar Comprobante
+      </Button>{" "}
     </>
   );
 };

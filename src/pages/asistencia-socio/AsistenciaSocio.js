@@ -12,7 +12,7 @@ import Swal from "sweetalert2";
 const AsistenciaSocio = () => {
   let getPostsFromFirebase = [];
   let fechaEvaluar = "";
-  const [dniBuscar, setdniBuscar] = useState();
+  const [dniBuscar, setdniBuscar] = useState("");
   const [mostrarPermiso, setmostrarPermiso] = useState("");
   const [mostrarNombres, setmostrarNombres] = useState("");
   const handleInputChangeDNI = (e) => {
@@ -24,31 +24,39 @@ const AsistenciaSocio = () => {
   };
 
   const fetchFirebasebyDNI = async (dniBuscar) => {
-    console.log(typeof dniBuscar);
-    const q = query(collection(db, "socios"), where("dni", "==", dniBuscar));
-    const querySnapshot = await getDocs(q);
-    querySnapshot.forEach((doc) => {
-      // doc.data() is never undefined for query doc snapshots
-      getPostsFromFirebase.push({
-        ...doc.data(),
-        key: doc.id,
+    if (dniBuscar !== "") {
+      const q = query(collection(db, "socios"), where("dni", "==", dniBuscar));
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach((doc) => {
+        // doc.data() is never undefined for query doc snapshots
+        getPostsFromFirebase.push({
+          ...doc.data(),
+          key: doc.id,
+        });
       });
-    });
-    if (getPostsFromFirebase.length !== 0) {
-      Swal.fire({
-        title: "¡Socio Encontrado!",
-        text: "Se ha cargado los datos del socio.",
-        icon: "success",
-        confirmButtonText: "Ok",
-      });
-      console.log(getPostsFromFirebase[0].nombres);
-      fechaEvaluar = getPostsFromFirebase[0].fechaFin;
-      setmostrarNombres("Bienvenido " + getPostsFromFirebase[0].nombres);
-      setmostrarPermiso(fechaEvaluar);
+      if (getPostsFromFirebase.length !== 0) {
+        Swal.fire({
+          title: "¡Socio Encontrado!",
+          text: "Se ha cargado los datos del socio.",
+          icon: "success",
+          confirmButtonText: "Ok",
+        });
+        console.log(getPostsFromFirebase[0].nombres);
+        fechaEvaluar = getPostsFromFirebase[0].fechaFin;
+        setmostrarNombres("Bienvenido " + getPostsFromFirebase[0].nombres);
+        setmostrarPermiso(fechaEvaluar);
+      } else {
+        Swal.fire({
+          title: "Error",
+          text: "No se encontró el DNI del socio.",
+          icon: "error",
+          confirmButtonText: "Ok",
+        });
+      }
     } else {
       Swal.fire({
         title: "Error",
-        text: "No se encontró el DNI del socio.",
+        text: "Debe ingresar un DNI para poder buscar.",
         icon: "error",
         confirmButtonText: "Ok",
       });
