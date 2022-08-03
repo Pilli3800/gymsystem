@@ -40,7 +40,7 @@ const RegistroSocio = () => {
 
   const generarBoleta = () => {
     const doc = new jsPDF();
-    var img = new Image;
+    var img = new Image();
     img.src = "//i.imgur.com/tqG1njP.png";  // some random imgur image
     doc.addImage(img, 25, 15,20, 20);
     doc.setFontSize(10);
@@ -55,7 +55,7 @@ const RegistroSocio = () => {
     doc.text(20, 90, `Fecha de Inicio: ${values.fechaInicio}`);
     doc.text(20, 100, `Fecha de Fin: ${values.fechaFin}`);
     doc.text(20, 110, `Tipo de Plan: ${values.tipoPlan}`);
-    doc.text(20, 120, `Monto pagado: S/. ${values.tipoPlan} nuevos soles.`);
+    doc.text(20, 120, `Monto pagado: S/. ${values.monto} nuevos soles.`);
     doc.save(`${values.dni}-boleta.pdf`);
   };
 

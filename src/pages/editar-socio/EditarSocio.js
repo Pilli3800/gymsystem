@@ -67,7 +67,7 @@ const EditarSocio = () => {
     doc.text(20, 90, `Fecha de Inicio: ${values.fechaInicio}`);
     doc.text(20, 100, `Fecha de Fin: ${values.fechaFin}`);
     doc.text(20, 110, `Tipo de Plan: ${values.tipoPlan}`);
-    doc.text(20, 120, `Monto pagado: S/. ${values.tipoPlan} nuevos soles.`);
+    doc.text(20, 120, `Monto pagado: S/. ${values.monto} nuevos soles.`);
     doc.save(`${values.dni}-boleta.pdf`);
   };
 
