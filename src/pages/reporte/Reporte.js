@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import { Button, Table, DropdownButton, Dropdown } from "react-bootstrap";
 import { db } from "../../services/firebase";
+import { Link } from "react-router-dom";
 import { collection, getDocs } from "firebase/firestore";
 import { query, where } from "firebase/firestore";
 import { MoonLoader } from "react-spinners";
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
 import Swal from "sweetalert2";
 import "./Reporte.css";
+import Whatsapp from "../../resources/whatsapp.png"
 
 const Reporte = () => {
   const getPostsFromFirebase = [];
@@ -176,7 +178,17 @@ const Reporte = () => {
               <td>{post.dni}</td>
               <td>{post.nombres}</td>
               <td>{post.apellidos}</td>
-              <td>{post.celular}</td>
+              <td>
+                {post.celular}{" "}
+                {/* 👇️ If you need to simply link to external URL */}
+                <a
+                  href={`https://api.whatsapp.com/send?phone=51${post.celular}`}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <button className="button-whatsapp"><img src={Whatsapp} alt="whatsapp" width="30"></img></button>
+                </a>
+              </td>
               <td>{post.tipoPlan}</td>
               <td>S/. {post.monto}</td>
               <td>{post.fechaInicio}</td>
