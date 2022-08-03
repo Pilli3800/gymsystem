@@ -39,6 +39,7 @@ const EditarSocio = () => {
     nombres: "",
     apellidos: "",
     dni: "",
+    celular: "",
     fechaInicio: "",
     fechaFin: "",
     tipoPlan: "",
@@ -115,6 +116,7 @@ const EditarSocio = () => {
         nombres: values.nombres,
         apellidos: values.apellidos,
         dni: values.dni,
+        celular: values.celular,
         fechaInicio: values.fechaInicio,
         fechaFin: values.fechaFin,
         tipoPlan: values.tipoPlan,
@@ -190,6 +192,7 @@ const EditarSocio = () => {
       values.nombres === "" ||
       values.apellidos === "" ||
       values.dni === "" ||
+      values.celular === "" ||
       values.fechaInicio === "" ||
       values.tipoPlan === "" ||
       values.monto === "" ||
@@ -279,6 +282,23 @@ const EditarSocio = () => {
         minLength="8"
       />
       <br></br>
+      <Form.Label>Teléfono del Socio</Form.Label>
+      <Form.Control
+        type="text"
+        id="inputCelular"
+        name="celular"
+        value={values.celular}
+        onChange={handleInputChange}
+        maxLength="9"
+        pattern="[0-9]*"
+        onKeyPress={(event) => {
+          if (!/[0-9]/.test(event.key)) {
+            event.preventDefault();
+          }
+        }}
+        minLength="1"
+      />
+      <br></br>
       <Form.Label>Fecha de Inicio</Form.Label>
       <Form.Control
         type="date"
@@ -302,6 +322,11 @@ const EditarSocio = () => {
       <br></br>
       <h4>Plan seleccionado:</h4>
       <p>{tipoPlanMostrar}</p>
+      <p>
+        {" "}
+        💡 Para ver la fecha de fin de plan correctamente, debe seleccionar el
+        tipo de plan <strong>dos veces.</strong>
+      </p>
       <h4>Fecha de Fin de Plan:</h4>
       <p>{fechaFinMostrar}</p>
       <Form.Label>Monto del Plan (S/.)</Form.Label>

@@ -162,6 +162,7 @@ const Reporte = () => {
             <th>DNI</th>
             <th>Nombres</th>
             <th>Apellidos</th>
+            <th>Teléfono</th>
             <th>Tipo de Plan</th>
             <th>Monto Pagado</th>
             <th>Fecha Inicio</th>
@@ -175,6 +176,7 @@ const Reporte = () => {
               <td>{post.dni}</td>
               <td>{post.nombres}</td>
               <td>{post.apellidos}</td>
+              <td>{post.celular}</td>
               <td>{post.tipoPlan}</td>
               <td>S/. {post.monto}</td>
               <td>{post.fechaInicio}</td>

@@ -5,7 +5,8 @@ import { db } from "../../services/firebase";
 import { doc, setDoc } from "firebase/firestore";
 import Swal from "sweetalert2";
 
-export const blockInvalidChar = e => ['e', 'E', '+', '-'].includes(e.key) && e.preventDefault();
+export const blockInvalidChar = (e) =>
+  ["e", "E", "+", "-"].includes(e.key) && e.preventDefault();
 const RegistroSocio = () => {
   const [tipoPlanMostrar, settipoPlanMostrar] = useState(
     "No se ha seleccionado un plan."
@@ -23,15 +24,16 @@ const RegistroSocio = () => {
     nombres: "",
     apellidos: "",
     dni: "",
+    celular: "",
     fechaInicio: "",
     fechaFin: "",
     tipoPlan: "",
     monto: "",
   });
 
-  function getMonth(date){
+  function getMonth(date) {
     let mes = new Date(date);
-    let response = mes.getMonth()+1;
+    let response = mes.getMonth() + 1;
     return response;
   }
 
@@ -43,6 +45,7 @@ const RegistroSocio = () => {
         nombres: values.nombres,
         apellidos: values.apellidos,
         dni: values.dni,
+        celular: values.celular,
         fechaInicio: values.fechaInicio,
         fechaFin: values.fechaFin,
         tipoPlan: values.tipoPlan,
@@ -118,6 +121,7 @@ const RegistroSocio = () => {
       values.nombres === "" ||
       values.apellidos === "" ||
       values.dni === "" ||
+      values.celular === "" ||
       values.fechaInicio === "" ||
       values.tipoPlan === "" ||
       values.monto === "" ||
@@ -189,6 +193,23 @@ const RegistroSocio = () => {
         minLength="8"
       />
       <br></br>
+      <Form.Label>Teléfono del Socio</Form.Label>
+      <Form.Control
+        type="text"
+        id="inputCelular"
+        name="celular"
+        value={values.celular}
+        onChange={handleInputChange}
+        maxLength="9"
+        pattern="[0-9]*"
+        onKeyPress={(event) => {
+          if (!/[0-9]/.test(event.key)) {
+            event.preventDefault();
+          }
+        }}
+        minLength="1"
+      />
+      <br></br>
       <Form.Label>Fecha de Inicio</Form.Label>
       <Form.Control
         type="date"
@@ -212,6 +233,11 @@ const RegistroSocio = () => {
       <br></br>
       <h4>Plan seleccionado:</h4>
       <p>{tipoPlanMostrar}</p>
+      <p>
+        {" "}
+        💡 Para ver la fecha de fin de plan correctamente, debe seleccionar el
+        tipo de plan <strong>dos veces.</strong>
+      </p>
       <h4>Fecha de Fin de Plan:</h4>
       <p>{fechaFinMostrar}</p>
       <Form.Label>Monto del Plan (S/.)</Form.Label>
