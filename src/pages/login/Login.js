@@ -44,28 +44,37 @@ const Login = () => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    const auth = getAuth(app);
-    setLoading(true);
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        // Signed in
-        const user = userCredential.user;
-        localStorage.setItem("user", user.uid);
-        navigate("/user/inicio", { replace: true });
-        window.location.reload();
-        setLoading(false);
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        Swal.fire({
-          title: "No se puede iniciar sesión",
-          text: `Se produjo el error: ${errorMessage}`,
-          icon: "error",
-          confirmButtonText: "Ok",
+    if (email !== "" && password !== "") {
+      const auth = getAuth(app);
+      setLoading(true);
+      signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          // Signed in
+          const user = userCredential.user;
+          localStorage.setItem("user", user.uid);
+          navigate("/user/inicio", { replace: true });
+          window.location.reload();
+          setLoading(false);
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          Swal.fire({
+            title: "No se puede iniciar sesión",
+            text: `Se produjo el error: ${errorMessage}`,
+            icon: "error",
+            confirmButtonText: "Ok",
+          });
+          setLoading(false);
         });
-        setLoading(false);
+    } else {
+      Swal.fire({
+        title: "Campos Vacíos",
+        text: `Debe llenar los campos para poder iniciar sesión.`,
+        icon: "error",
+        confirmButtonText: "Ok",
       });
+    }
   };
 
   return (

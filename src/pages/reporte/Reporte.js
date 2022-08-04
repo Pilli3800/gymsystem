@@ -8,7 +8,7 @@ import { MoonLoader } from "react-spinners";
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
 import Swal from "sweetalert2";
 import "./Reporte.css";
-import Whatsapp from "../../resources/whatsapp.png"
+import Whatsapp from "../../resources/whatsapp.png";
 
 const Reporte = () => {
   const getPostsFromFirebase = [];
@@ -73,6 +73,37 @@ const Reporte = () => {
     setLoading(false);
   };
 
+  const fetchFirebaseToday = async () => {
+    setLoading(true);
+    let dateAux = new Date().toISOString().substring(0, 10);
+    const q = query(
+      collection(db, "socios"),
+      where("fechaRegistro", "==", dateAux)
+    );
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      // doc.data() is never undefined for query doc snapshots
+      getPostsFromFirebase.push({
+        ...doc.data(),
+        key: doc.id,
+      });
+    });
+    if (getPostsFromFirebase.length !== 0) {
+      setPosts(getPostsFromFirebase);
+      console.log(getPostsFromFirebase);
+    } else {
+      setPosts([]);
+      setLoading(false);
+      Swal.fire({
+        title: "Error",
+        text: `No hay socios registrados: ${dateAux}`,
+        icon: "error",
+        confirmButtonText: "Ok",
+      });
+    }
+    setLoading(false);
+  };
+
   // useEffect(() => {
   //   fetchFirebase();
   // }, [loading]);
@@ -117,6 +148,10 @@ const Reporte = () => {
     fetchFirebase();
   };
 
+  const handleClickDia = () => {
+    fetchFirebaseToday();
+  };
+
   return (
     <>
       <div className="m-5 text-center">
@@ -124,6 +159,9 @@ const Reporte = () => {
         <div className="d-flex flex-row justify-content-center">
           <Button className="boton" onClick={handleClick}>
             Reporte General
+          </Button>
+          <Button className="boton" variant="warning" onClick={handleClickDia}>
+            Reporte del Día
           </Button>
           <DropdownButton
             id="dropdown-mes-reporte"
@@ -165,10 +203,12 @@ const Reporte = () => {
             <th>Nombres</th>
             <th>Apellidos</th>
             <th>Teléfono</th>
+            <th>Whatsapp</th>
             <th>Tipo de Plan</th>
             <th>Monto Pagado</th>
             <th>Fecha Inicio</th>
             <th>Fecha Fin</th>
+            <th>Fecha Registro</th>
           </tr>
         </thead>
         <tbody>
@@ -178,21 +218,23 @@ const Reporte = () => {
               <td>{post.dni}</td>
               <td>{post.nombres}</td>
               <td>{post.apellidos}</td>
+              <td>{post.celular}</td>
               <td>
-                {post.celular}{" "}
-                {/* 👇️ If you need to simply link to external URL */}
                 <a
                   href={`https://api.whatsapp.com/send?phone=51${post.celular}`}
                   target="_blank"
                   rel="noreferrer"
                 >
-                  <button className="button-whatsapp"><img src={Whatsapp} alt="whatsapp" width="30"></img></button>
+                  <button className="button-whatsapp">
+                    <img src={Whatsapp} alt="whatsapp" width="30"></img>
+                  </button>
                 </a>
               </td>
               <td>{post.tipoPlan}</td>
               <td>S/. {post.monto}</td>
               <td>{post.fechaInicio}</td>
               <td>{post.fechaFin}</td>
+              <td>{post.fechaRegistro}</td>
             </tr>
           ))}
         </tbody>

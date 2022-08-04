@@ -28,6 +28,7 @@ const RegistroSocio = () => {
     celular: "",
     fechaInicio: "",
     fechaFin: "",
+    fechaRegistro: "",
     tipoPlan: "",
     monto: "",
   });
@@ -76,6 +77,7 @@ const RegistroSocio = () => {
         celular: values.celular,
         fechaInicio: values.fechaInicio,
         fechaFin: values.fechaFin,
+        fechaRegistro: new Date().toISOString().substring(0, 10),
         tipoPlan: values.tipoPlan,
         mes: getMonth(values.fechaInicio),
         monto: values.monto,
