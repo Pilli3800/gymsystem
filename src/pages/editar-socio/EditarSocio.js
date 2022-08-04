@@ -43,6 +43,7 @@ const EditarSocio = () => {
     celular: "",
     fechaInicio: "",
     fechaFin: "",
+    fechaRegistro: "",
     tipoPlan: "",
     monto: "",
   });
@@ -144,6 +145,7 @@ const EditarSocio = () => {
         celular: values.celular,
         fechaInicio: values.fechaInicio,
         fechaFin: values.fechaFin,
+        fechaRegistro: new Date().toISOString().substring(0, 10),
         tipoPlan: values.tipoPlan,
         mes: parseInt(mesCambiar),
         monto: values.monto,

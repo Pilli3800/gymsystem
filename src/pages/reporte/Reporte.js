@@ -3,6 +3,7 @@ import { Button, Table, DropdownButton, Dropdown } from "react-bootstrap";
 import { db } from "../../services/firebase";
 import { Link } from "react-router-dom";
 import { collection, getDocs } from "firebase/firestore";
+import { Form } from "react-bootstrap";
 import { query, where } from "firebase/firestore";
 import { MoonLoader } from "react-spinners";
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
@@ -14,6 +15,7 @@ const Reporte = () => {
   const getPostsFromFirebase = [];
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(false);
+  let diaBuscar;
   let monthOpcion;
 
   const override = {
@@ -104,6 +106,46 @@ const Reporte = () => {
     setLoading(false);
   };
 
+  const fetchFirebaseBuscarDia = async (diaBuscar) => {
+    setLoading(true);
+    if (diaBuscar !== undefined) {
+      const q = query(
+        collection(db, "socios"),
+        where("fechaRegistro", "==", diaBuscar)
+      );
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach((doc) => {
+        // doc.data() is never undefined for query doc snapshots
+        getPostsFromFirebase.push({
+          ...doc.data(),
+          key: doc.id,
+        });
+      });
+      if (getPostsFromFirebase.length !== 0) {
+        setPosts(getPostsFromFirebase);
+        console.log(getPostsFromFirebase);
+      } else {
+        setPosts([]);
+        setLoading(false);
+        Swal.fire({
+          title: "Error",
+          text: `No hay socios registrados: ${diaBuscar}`,
+          icon: "error",
+          confirmButtonText: "Ok",
+        });
+      }
+      setLoading(false);
+    } else {
+      Swal.fire({
+        title: "Error",
+        text: `No haz seleccionado ninguna fecha.`,
+        icon: "error",
+        confirmButtonText: "Ok",
+      });
+      setLoading(false);
+    }
+  };
+
   // useEffect(() => {
   //   fetchFirebase();
   // }, [loading]);
@@ -152,11 +194,20 @@ const Reporte = () => {
     fetchFirebaseToday();
   };
 
+  const handleChangeDiaBuscar = (e) => {
+    diaBuscar = e.target.value;
+    console.log(diaBuscar);
+  };
+
+  const handleClickBuscarDia = () => {
+    fetchFirebaseBuscarDia(diaBuscar);
+  };
+
   return (
     <>
       <div className="m-5 text-center">
         <h1 className="m-5">Reporte</h1>
-        <div className="d-flex flex-row justify-content-center">
+        <div className="d-flex flex-row justify-content-center flex-wrap">
           <Button className="boton" onClick={handleClick}>
             Reporte General
           </Button>
@@ -184,6 +235,16 @@ const Reporte = () => {
             <Dropdown.Item eventKey="11">Noviembre</Dropdown.Item>
             <Dropdown.Item eventKey="12">Diciembre</Dropdown.Item>
           </DropdownButton>
+
+          <Form.Control
+            className="boton"
+            type="date"
+            name="diaBuscar"
+            onChange={handleChangeDiaBuscar}
+          />
+          <Button className="boton" onClick={handleClickBuscarDia}>
+            Buscar Día
+          </Button>
         </div>
         <hr></hr>
         <ReactHTMLTableToExcel
