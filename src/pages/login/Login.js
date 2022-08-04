@@ -80,7 +80,7 @@ const Login = () => {
             <Form.Label>Dirección de Correo Electrónico</Form.Label>
             <Form.Control
               type="email"
-              placeholder="Enter email"
+              placeholder="Ingrese su correo"
               id="email"
               onChange={handleChangeEmail}
             />
