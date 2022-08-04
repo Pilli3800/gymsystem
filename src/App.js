@@ -5,27 +5,24 @@ import Reporte from "./pages/reporte/Reporte";
 import EditarSocio from "./pages/editar-socio/EditarSocio";
 import AsistenciaSocio from "./pages/asistencia-socio/AsistenciaSocio";
 import Login from "./pages/login/Login";
+import { useState } from "react";
+import UserRoutes from "./UserRoutes";
+import PrivateRoutes from "./PrivateRoute";
+import Recuperar from "./pages/recuperar/Recuperar";
 
 function App() {
+  const [user, setUser] = useState(null);
+
   return (
     <>
       <div className="App">
         <Routes>
-          <Route
-            exact index
-            path="/"
-            element={
-              <h1 className="d-flex justify-content-center align-items-center">
-                Bienvenidos al GymSystem
-              </h1>
-            }
-          />
-          <Route exact path="/login" element={<Login/>}/>
-          <Route exact path="/registro" element={<RegistroSocio />} />
-          <Route exact path="/editar" element={<EditarSocio />} />
-          <Route exact path="/asistencia" element={<AsistenciaSocio />} />
-          <Route exact path="/reporte" element={<Reporte />} />
-          <Route path="*" element={<Navigate replace to="/" />}/>
+          <Route exact path="/login" element={<Login />} />
+          <Route exact path="/recuperar" element={<Recuperar/>} />
+          <Route element={<PrivateRoutes />}>
+            <Route exact path="/user/*" element={<UserRoutes />} />
+          </Route>
+          <Route path="*" element={<Navigate to="/login"/>}/>
         </Routes>
       </div>
     </>
