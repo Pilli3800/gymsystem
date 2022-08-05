@@ -111,6 +111,12 @@ const Login = () => {
             Recuperar Contraseña
           </Link>
         </Form>
+        <br></br>
+        <p>
+          <strong>Testing:</strong>
+        </p>
+        <p>Correo: admin123@gmail.com</p>
+        <p>Contraseña: admin123@gmail.com</p>
       </div>
     </div>
   );
