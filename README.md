@@ -14,7 +14,7 @@ A simple system that contains a CRUD for membership manipulation, attendance and
 Install the dependencies with npm and run the project.
 
 ```bash
-  npm install 
+  npm install --force
   npm start 
 ```
 ## Demo
