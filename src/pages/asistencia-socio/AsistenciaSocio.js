@@ -3,7 +3,7 @@ import Button from "react-bootstrap/Button";
 import { Container } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
-import { collection, getDocs, deleteDoc } from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 import { query, where } from "firebase/firestore";
 import { db } from "../../services/firebase";
 import { doc, setDoc } from "firebase/firestore";
@@ -34,14 +34,23 @@ const AsistenciaSocio = () => {
           key: doc.id,
         });
       });
+      // if promise there response, update asistencia_puntos
       if (getPostsFromFirebase.length !== 0) {
+        const cityRef = doc(db, "socios", dniBuscar);
+        setDoc(
+          cityRef,
+          { asistencia_puntos: getPostsFromFirebase[0].asistencia_puntos + 1 },
+          { merge: true }
+        );
+        setmostrarPermiso(true);
         Swal.fire({
-          title: "¡Socio Encontrado!",
+          title: "¡Socio Encontrado! \n (+1 Asistencia)",
           text: "Se ha cargado los datos del socio.",
           icon: "success",
           confirmButtonText: "Ok",
         });
         console.log(getPostsFromFirebase[0].nombres);
+        console.log(getPostsFromFirebase[0].asistencia_puntos);
         fechaEvaluar = getPostsFromFirebase[0].fechaFin;
         setmostrarNombres("Bienvenido " + getPostsFromFirebase[0].nombres);
         setmostrarPermiso(fechaEvaluar);
@@ -110,9 +119,9 @@ const AsistenciaSocio = () => {
             {" "}
             Estado:
             {compareDates(mostrarPermiso) ? (
-              <h2 className="text-success">Si puede ingresar</h2>
+              <h2 className="text-success">Si puede ingresar, adelante!</h2>
             ) : (
-              <h2 className="text-danger">No puede ingresar</h2>
+              <h2 className="text-danger">No puede ingresar.</h2>
             )}
           </h3>
         </div>
