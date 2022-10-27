@@ -31,6 +31,7 @@ const RegistroSocio = () => {
     fechaRegistro: "",
     tipoPlan: "",
     monto: "",
+    asistencia_puntos: 0
   });
 
   function today() {
@@ -81,6 +82,7 @@ const RegistroSocio = () => {
         tipoPlan: values.tipoPlan,
         mes: getMonth(values.fechaInicio),
         monto: values.monto,
+        asistencia_puntos: 0
       });
       console.log("Socio registrado con el ID: ", values.dni);
       Swal.fire({

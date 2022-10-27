@@ -1,0 +1,12 @@
+.boton {
+  margin: 1rem 1rem;
+}
+.boton-excel {
+  border: none;
+  padding: 0;
+}
+.button-whatsapp {
+  border: none;
+  background-color: white;
+  color: none;
+}

@@ -6,15 +6,13 @@ import InputGroup from "react-bootstrap/InputGroup";
 import { collection, getDocs } from "firebase/firestore";
 import { query, where } from "firebase/firestore";
 import { db } from "../../services/firebase";
-import { doc, setDoc } from "firebase/firestore";
 import Swal from "sweetalert2";
 
-const AsistenciaSocio = () => {
+const AsistenciaSocioVer = () => {
   let getPostsFromFirebase = [];
-  let fechaEvaluar = "";
   const [dniBuscar, setdniBuscar] = useState("");
-  const [mostrarPermiso, setmostrarPermiso] = useState("");
   const [mostrarNombres, setmostrarNombres] = useState("");
+  const [mostrarPuntajeAsistencia, setmostrarPuntajeAsistencia] = useState("");
   const handleInputChangeDNI = (e) => {
     setdniBuscar(e.target.value);
   };
@@ -36,24 +34,18 @@ const AsistenciaSocio = () => {
       });
       // if promise there response, update asistencia_puntos
       if (getPostsFromFirebase.length !== 0) {
-        const cityRef = doc(db, "socios", dniBuscar);
-        setDoc(
-          cityRef,
-          { asistencia_puntos: getPostsFromFirebase[0].asistencia_puntos + 1 },
-          { merge: true }
-        );
-        setmostrarPermiso(true);
         Swal.fire({
-          title: "¡Socio Encontrado! \n (+1 Asistencia)",
-          text: "Se ha cargado los datos del socio.",
+          title: "¡Socio Encontrado!\n",
+          text: "Se ha cargado los puntajes del socio.",
           icon: "success",
           confirmButtonText: "Ok",
         });
-        console.log(getPostsFromFirebase[0].nombres);
-        console.log(getPostsFromFirebase[0].asistencia_puntos);
-        fechaEvaluar = getPostsFromFirebase[0].fechaFin;
         setmostrarNombres("Bienvenido " + getPostsFromFirebase[0].nombres);
-        setmostrarPermiso(fechaEvaluar);
+        setmostrarPuntajeAsistencia(
+          "Su puntaje de asistencias es de: " +
+            getPostsFromFirebase[0].asistencia_puntos +
+            " puntos."
+        );
       } else {
         Swal.fire({
           title: "Error",
@@ -72,31 +64,14 @@ const AsistenciaSocio = () => {
     }
   };
 
-  function compareDates(e) {
-    let response = "";
-    let q = new Date();
-    var m = q.getMonth() + 1;
-    var d = q.getDay();
-    var y = q.getFullYear();
-    var today = new Date(y, m, d);
-    let toCompare = new Date(e);
-
-    if (today <= toCompare) {
-      response = true;
-    } else {
-      response = false;
-    }
-    return response;
-  }
-
   return (
     <Container>
       <div className="m-5 text-center">
-        <h1>Asistencia</h1>
+        <h1>Puntaje de Socios</h1>
       </div>
       <InputGroup className="mb-3">
         <Form.Control
-          placeholder="Ingresar el DNI del Socio"
+          placeholder="Ingresar su DNI"
           aria-label="Recipient's username"
           aria-describedby="basic-addon2"
           maxLength="8"
@@ -115,19 +90,12 @@ const AsistenciaSocio = () => {
       <div className="d-flex flex-column justify-content-center align-items-center">
         <h3>{mostrarNombres}</h3>
         <div className="d-flex flex-column justify-content-center align-items-center text-center">
-          <h3>
-            {" "}
-            Estado:
-            {compareDates(mostrarPermiso) ? (
-              <h2 className="text-success">Si puede ingresar, adelante!</h2>
-            ) : (
-              <h2 className="text-danger">No puede ingresar.</h2>
-            )}
-          </h3>
+          <h3>{mostrarPuntajeAsistencia}</h3>
         </div>
+        <p>💡 Recuerde acercarse al counter, para canjear sus puntajes. </p>
       </div>
     </Container>
   );
 };
 
-export default AsistenciaSocio;
+export default AsistenciaSocioVer;
