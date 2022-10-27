@@ -1,9 +1,6 @@
 import "./App.css";
 import { Routes, Route, Navigate } from "react-router-dom";
-import RegistroSocio from "./pages/registro-socio/RegistroSocio";
-import Reporte from "./pages/reporte/Reporte";
-import EditarSocio from "./pages/editar-socio/EditarSocio";
-import AsistenciaSocio from "./pages/asistencia-socio/AsistenciaSocio";
+import PuntajeSocioVer from "./pages/puntaje-socio/PuntajeSocio";
 import Login from "./pages/login/Login";
 import { useState } from "react";
 import UserRoutes from "./UserRoutes";
@@ -18,11 +15,12 @@ function App() {
       <div className="App">
         <Routes>
           <Route exact path="/login" element={<Login />} />
-          <Route exact path="/recuperar" element={<Recuperar/>} />
+          <Route exact path="/recuperar" element={<Recuperar />} />
           <Route element={<PrivateRoutes />}>
             <Route exact path="/user/*" element={<UserRoutes />} />
           </Route>
-          <Route path="*" element={<Navigate to="/login"/>}/>
+          <Route exact path="/ver-puntaje" element={<PuntajeSocioVer />} />
+          <Route path="*" element={<Navigate to="/login" />} />
         </Routes>
       </div>
     </>
