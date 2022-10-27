@@ -1,6 +1,7 @@
 import "./App.css";
 import { Routes, Route, Navigate } from "react-router-dom";
 import PuntajeSocioVer from "./pages/puntaje-socio/PuntajeSocio";
+import LeaderboardAsistencia from "./pages/leaderboard-asistencia/LeaderboardAsistencia";
 import Login from "./pages/login/Login";
 import { useState } from "react";
 import UserRoutes from "./UserRoutes";
@@ -20,6 +21,11 @@ function App() {
             <Route exact path="/user/*" element={<UserRoutes />} />
           </Route>
           <Route exact path="/ver-puntaje" element={<PuntajeSocioVer />} />
+          <Route
+            exact
+            path="/leaderboard-asistencia"
+            element={<LeaderboardAsistencia />}
+          />
           <Route path="*" element={<Navigate to="/login" />} />
         </Routes>
       </div>
