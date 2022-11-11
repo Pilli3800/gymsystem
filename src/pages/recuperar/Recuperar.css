@@ -1,11 +1,16 @@
 .recuperar-container {
   display: flex;
   justify-content: center;
+  background-color: #f2f6ff;
+  height: 100vh;
+  padding-top: 10%;
+  padding-right: 20px;
+  padding-left: 20px;
 }
 
 .recuperar {
   width: 600px;
-  height: 350px;
+  height: 400px;
   background: rgb(255, 255, 255);
   border-radius: 0.4em;
   box-shadow: 0.3em 0.3em 0.7em #00000015;
@@ -16,4 +21,13 @@
   align-items: center;
   flex-direction: column;
   justify-content: center;
+}
+
+.form-container{
+  width: 85%;
+  padding: 10px 0;
+}
+
+.boton-entrar{
+  margin-left: 0;
 }

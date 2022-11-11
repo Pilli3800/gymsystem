@@ -3,7 +3,7 @@ import "./Recuperar.css";
 import { Form, Button } from "react-bootstrap";
 import { getAuth, sendPasswordResetEmail } from "firebase/auth";
 import Swal from "sweetalert2";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Recuperar = () => {
   const [email, setemail] = useState("");
@@ -48,23 +48,27 @@ const Recuperar = () => {
     <div className="recuperar-container">
       <div className="recuperar">
         <h3 className="text-center m-2">Recuperación/Cambio de Contraseña</h3>
-        <Form>
-          <Form.Group className="mb-3" controlId="email">
-            <Form.Label>Dirección de Correo Electrónico</Form.Label>
-            <Form.Control
-              type="email"
-              placeholder="Ingrese su correo"
-              id="email"
-              onChange={handleChangeEmail}
-            />
-          </Form.Group>
-          <Button variant="primary" type="submit" onClick={handleClick}>
-            Recuperar
-          </Button>
-          <Link className="link-recuperar" to="/login">
-            Atrás
-          </Link>
-        </Form>
+        <div className="form-container">
+          <Form>
+            <Form.Group className="mb-3" controlId="email">
+              <Form.Label>Dirección de Correo Electrónico</Form.Label>
+              <Form.Control
+                type="email"
+                placeholder="Ingrese su correo"
+                id="email"
+                onChange={handleChangeEmail}
+              />
+            </Form.Group>
+            <div className="botones-login">
+              <Button variant="primary" className="boton-entrar" type="submit" onClick={handleClick}>
+                Recuperar
+              </Button>
+              <Link className="link-recuperar" to="/login">
+                Atrás
+              </Link>
+            </div>
+          </Form>
+        </div>
       </div>
     </div>
   );

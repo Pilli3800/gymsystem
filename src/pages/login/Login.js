@@ -104,12 +104,14 @@ const Login = () => {
               onChange={handleChangePassword}
             />
           </Form.Group>
-          <Button variant="primary" type="submit" onClick={submitHandler}>
+          <div className="botones-login">
+          <Button variant="primary" className="boton-entrar" type="submit" onClick={submitHandler}>
             Entrar
           </Button>
           <Link className="link-recuperar" to="/recuperar">
             Recuperar Contraseña
           </Link>
+          </div>
         </Form>
         <br></br>
         <p>
