@@ -10,7 +10,7 @@ import Swal from "sweetalert2";
 import "./LeaderboardAsistencia.css";
 
 const Reporte = () => {
-  const WAIT_TIME = 5000;
+  const WAIT_TIME = 1000;
   const getPostsFromFirebase = [];
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(false);

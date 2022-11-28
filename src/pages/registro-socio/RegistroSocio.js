@@ -6,8 +6,6 @@ import { doc, setDoc } from "firebase/firestore";
 import Swal from "sweetalert2";
 import { jsPDF } from "jspdf";
 
-const getUserDNI = [];
-
 export const blockInvalidChar = (e) =>
   ["e", "E", "+", "-"].includes(e.key) && e.preventDefault();
 const RegistroSocio = () => {
@@ -33,7 +31,7 @@ const RegistroSocio = () => {
     fechaRegistro: "",
     tipoPlan: "",
     monto: "",
-    asistencia_puntos: 0
+    asistencia_puntos: 0,
   });
 
   function today() {
@@ -45,8 +43,8 @@ const RegistroSocio = () => {
   const generarBoleta = () => {
     const doc = new jsPDF();
     var img = new Image();
-    img.src = "//i.imgur.com/tqG1njP.png";  // some random imgur image
-    doc.addImage(img, 25, 15,20, 20);
+    img.src = "//i.imgur.com/tqG1njP.png"; // some random imgur image
+    doc.addImage(img, 25, 15, 20, 20);
     doc.setFontSize(10);
     doc.rect(15, 10, 180, 140);
     doc.text(84, 20, "Comprobante de Pago");
@@ -84,7 +82,7 @@ const RegistroSocio = () => {
         tipoPlan: values.tipoPlan,
         mes: getMonth(values.fechaInicio),
         monto: values.monto,
-        asistencia_puntos: 0
+        asistencia_puntos: 0,
       });
       console.log("Socio registrado con el ID: ", values.dni);
       Swal.fire({
@@ -151,6 +149,13 @@ const RegistroSocio = () => {
     console.log(values);
     console.log("Fecha de fin de plan: " + validateMonth(values.fechaInicio));
     values.fechaFin = validateMonth(values.fechaInicio);
+    if (values.dni.length < 8) {
+      Swal.fire({
+        title: "DNI Incorreto",
+        text: "Debes completar el campo con 8 digitos: DNI",
+        icon: "error",
+        confirmButtonText: "Ok",
+      });
     if (
       values.nombres === "" ||
       values.apellidos === "" ||
@@ -167,6 +172,7 @@ const RegistroSocio = () => {
         icon: "error",
         confirmButtonText: "Ok",
       });
+    }
     } else {
       addSocio(values);
     }
@@ -217,6 +223,7 @@ const RegistroSocio = () => {
         name="dni"
         value={values.dni}
         onChange={handleInputChange}
+        placeholder="00000000"
         maxLength="8"
         pattern="[0-9]*"
         onKeyPress={(event) => {
@@ -267,11 +274,11 @@ const RegistroSocio = () => {
       <br></br>
       <h4>Plan seleccionado:</h4>
       <p>{tipoPlanMostrar}</p>
-      <p>
+      {/* <p>
         {" "}
         💡 Para ver la fecha de fin de plan correctamente, debe seleccionar el
         tipo de plan <strong>dos veces.</strong>
-      </p>
+      </p> */}
       <h4>Fecha de Fin de Plan:</h4>
       <p>{fechaFinMostrar}</p>
       <Form.Label>Monto del Plan (S/.)</Form.Label>
@@ -282,6 +289,7 @@ const RegistroSocio = () => {
         value={values.monto}
         onChange={handleInputChange}
         onKeyDown={blockInvalidChar}
+        min="1"
       />
       <br></br>
       <Button variant="info" onClick={handleSubmit}>

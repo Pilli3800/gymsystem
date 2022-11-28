@@ -135,6 +135,9 @@ const EditarSocio = () => {
   const addSocio = async (linkObject) => {
     // const db = getDatabase();
     // set(ref(db, "socios/ " + linkObject.dni), linkObject);
+
+
+    
     let mesCambiar = getMonth(values.fechaInicio);
     values.mes = mesCambiar;
     try {
@@ -349,11 +352,11 @@ const EditarSocio = () => {
       <br></br>
       <h4>Plan seleccionado:</h4>
       <p>{tipoPlanMostrar}</p>
-      <p>
+      {/* <p>
         {" "}
         💡 Para ver la fecha de fin de plan correctamente, debe seleccionar el
         tipo de plan <strong>dos veces.</strong>
-      </p>
+      </p> */}
       <h4>Fecha de Fin de Plan:</h4>
       <p>{fechaFinMostrar}</p>
       <Form.Label>Monto del Plan (S/.)</Form.Label>
