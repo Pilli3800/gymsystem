@@ -6,6 +6,8 @@ import { doc, setDoc } from "firebase/firestore";
 import Swal from "sweetalert2";
 import { jsPDF } from "jspdf";
 
+const getUserDNI = [];
+
 export const blockInvalidChar = (e) =>
   ["e", "E", "+", "-"].includes(e.key) && e.preventDefault();
 const RegistroSocio = () => {
