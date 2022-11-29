@@ -367,6 +367,7 @@ const EditarSocio = () => {
         value={values.monto}
         onChange={handleInputChange}
         onKeyDown={blockInvalidChar}
+        min="1"
       />
       <br></br>
       <Button variant="info" onClick={handleSubmit}>

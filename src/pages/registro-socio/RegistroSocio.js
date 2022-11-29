@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Form, Dropdown, DropdownButton, Button } from "react-bootstrap";
 //import { collection, addDoc } from "firebase/firestore";
 import { db } from "../../services/firebase";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, setDoc, getDoc } from "firebase/firestore";
 import Swal from "sweetalert2";
 import { jsPDF } from "jspdf";
 
@@ -70,38 +70,49 @@ const RegistroSocio = () => {
   const addSocio = async (linkObject) => {
     // const db = getDatabase();
     // set(ref(db, "socios/ " + linkObject.dni), linkObject);
-    try {
-      const docRef = await setDoc(doc(db, "socios/", values.dni), {
-        nombres: values.nombres,
-        apellidos: values.apellidos,
-        dni: values.dni,
-        celular: values.celular,
-        fechaInicio: values.fechaInicio,
-        fechaFin: values.fechaFin,
-        fechaRegistro: new Date().toISOString().substring(0, 10),
-        tipoPlan: values.tipoPlan,
-        mes: getMonth(values.fechaInicio),
-        monto: values.monto,
-        asistencia_puntos: 0,
-      });
-      console.log("Socio registrado con el ID: ", values.dni);
+    const docRef = doc(db, "socios", values.dni);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
       Swal.fire({
-        title: "¡Socio Agregado!",
-        text: "El socio ha sido agregado.",
-        icon: "success",
-        confirmButtonText: "Ok",
-      });
-    } catch (e) {
-      console.error("Error al registrar socio: ", e);
-      Swal.fire({
-        title: "Error!",
-        text: "¡El socio ya existe!",
+        title: "Ups!",
+        text: "El socio ya existe, verifique el DNI. \nSi quiere editar a un socio debe ir al módulo 'editar/eliminar socio'",
         icon: "error",
         confirmButtonText: "Ok",
       });
+    } else {
+      try {
+        const docRef = await setDoc(doc(db, "socios/", values.dni), {
+          nombres: values.nombres,
+          apellidos: values.apellidos,
+          dni: values.dni,
+          celular: values.celular,
+          fechaInicio: values.fechaInicio,
+          fechaFin: values.fechaFin,
+          fechaRegistro: new Date().toISOString().substring(0, 10),
+          tipoPlan: values.tipoPlan,
+          mes: getMonth(values.fechaInicio),
+          monto: values.monto,
+          asistencia_puntos: 0,
+        });
+        console.log("Socio registrado con el ID: ", values.dni);
+        Swal.fire({
+          title: "¡Socio Agregado!",
+          text: "El socio ha sido agregado.",
+          icon: "success",
+          confirmButtonText: "Ok",
+        });
+      } catch (e) {
+        console.error("Error al registrar socio: ", e);
+        Swal.fire({
+          title: "Error!",
+          text: "¡El socio ya existe!",
+          icon: "error",
+          confirmButtonText: "Ok",
+        });
+      }
+      console.log(linkObject);
+      console.log("Nuevo Socio Agregado");
     }
-    console.log(linkObject);
-    console.log("Nuevo Socio Agregado");
   };
 
   const handleInputChange = (e) => {
@@ -156,23 +167,23 @@ const RegistroSocio = () => {
         icon: "error",
         confirmButtonText: "Ok",
       });
-    if (
-      values.nombres === "" ||
-      values.apellidos === "" ||
-      values.dni === "" ||
-      values.celular === "" ||
-      values.fechaInicio === "" ||
-      values.tipoPlan === "" ||
-      values.monto === "" ||
-      values.fechaFin === ""
-    ) {
-      Swal.fire({
-        title: "Error!",
-        text: "¡No dejes campos vacios!",
-        icon: "error",
-        confirmButtonText: "Ok",
-      });
-    }
+      if (
+        values.nombres === "" ||
+        values.apellidos === "" ||
+        values.dni === "" ||
+        values.celular === "" ||
+        values.fechaInicio === "" ||
+        values.tipoPlan === "" ||
+        values.monto === "" ||
+        values.fechaFin === ""
+      ) {
+        Swal.fire({
+          title: "Error!",
+          text: "¡No dejes campos vacios!",
+          icon: "error",
+          confirmButtonText: "Ok",
+        });
+      }
     } else {
       addSocio(values);
     }
