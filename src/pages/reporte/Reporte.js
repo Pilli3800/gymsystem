@@ -270,6 +270,7 @@ const Reporte = () => {
             <th>Fecha Inicio</th>
             <th>Fecha Fin</th>
             <th>Fecha Registro</th>
+            <th>Asistencia Puntaje</th>
           </tr>
         </thead>
         <tbody>
@@ -296,6 +297,7 @@ const Reporte = () => {
               <td>{post.fechaInicio}</td>
               <td>{post.fechaFin}</td>
               <td>{post.fechaRegistro}</td>
+              <td>{post.asistencia_puntos}</td>
             </tr>
           ))}
         </tbody>

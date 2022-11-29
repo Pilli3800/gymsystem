@@ -1,8 +1,17 @@
 import React, { useState } from "react";
-import { Form, Dropdown, DropdownButton, Button } from "react-bootstrap";
+import {
+  Form,
+  Dropdown,
+  DropdownButton,
+  Button,
+  Container,
+  Row,
+  Col,
+} from "react-bootstrap";
 //import { collection, addDoc } from "firebase/firestore";
 import { db } from "../../services/firebase";
 import { doc, setDoc, getDoc } from "firebase/firestore";
+import "./RegistroSocio.css";
 import Swal from "sweetalert2";
 import { jsPDF } from "jspdf";
 
@@ -197,119 +206,134 @@ const RegistroSocio = () => {
   };
 
   return (
-    <>
-      <h1>Registro de Socio Nuevo</h1>
-      <Form.Label>Nombre(s) del Socio</Form.Label>
-      <Form.Control
-        type="text"
-        id="inputNombres"
-        onChange={handleInputChange}
-        name="nombres"
-        value={values.nombres}
-        onKeyPress={(event) => {
-          if (/[0-9]/.test(event.key)) {
-            event.preventDefault();
-          }
-        }}
-      />
-      <br></br>
-      <Form.Label>Apellidos del Socio</Form.Label>
-      <Form.Control
-        type="text"
-        id="inputApellidos"
-        name="apellidos"
-        value={values.apellidos}
-        onChange={handleInputChange}
-        onKeyPress={(event) => {
-          if (/[0-9]/.test(event.key)) {
-            event.preventDefault();
-          }
-        }}
-      />
-      <br></br>
-      <Form.Label>DNI del Socio</Form.Label>
-      <Form.Control
-        type="text"
-        id="inputDNI"
-        name="dni"
-        value={values.dni}
-        onChange={handleInputChange}
-        placeholder="00000000"
-        maxLength="8"
-        pattern="[0-9]*"
-        onKeyPress={(event) => {
-          if (!/[0-9]/.test(event.key)) {
-            event.preventDefault();
-          }
-        }}
-        minLength="8"
-      />
-      <br></br>
-      <Form.Label>Teléfono del Socio</Form.Label>
-      <Form.Control
-        type="text"
-        id="inputCelular"
-        name="celular"
-        value={values.celular}
-        onChange={handleInputChange}
-        maxLength="9"
-        pattern="[0-9]*"
-        onKeyPress={(event) => {
-          if (!/[0-9]/.test(event.key)) {
-            event.preventDefault();
-          }
-        }}
-        minLength="1"
-      />
-      <br></br>
-      <Form.Label>Fecha de Inicio</Form.Label>
-      <Form.Control
-        type="date"
-        onChange={handleInputChange}
-        name="fechaInicio"
-        value={values.fechaInicio}
-      />
-      <br></br>
-      <DropdownButton
-        id="dropdown-basic-button"
-        title="Seleccionar Plan"
-        onSelect={handleSelect}
-        name="tipoPlan"
-      >
-        <Dropdown.Item eventKey="Mensual">Mensual</Dropdown.Item>
-        <Dropdown.Item eventKey="Bimestral">Bimestral</Dropdown.Item>
-        <Dropdown.Item eventKey="Trimestral">Trimestral</Dropdown.Item>
-        <Dropdown.Item eventKey="Semestral">Semestral</Dropdown.Item>
-        <Dropdown.Item eventKey="Anual">Anual</Dropdown.Item>
-      </DropdownButton>
-      <br></br>
-      <h4>Plan seleccionado:</h4>
-      <p>{tipoPlanMostrar}</p>
-      {/* <p>
+      <div className="container-registro">
+        <h1 className="text-center">Registro de Socio Nuevo</h1>
+        <div className="Container">
+          <Row className="mt-4 mb-4">
+            <Col>
+              <Form.Label>Nombre(s) del Socio</Form.Label>
+              <Form.Control
+                type="text"
+                id="inputNombres"
+                placeholder="Ejemplo: Juan"
+                onChange={handleInputChange}
+                name="nombres"
+                value={values.nombres}
+                onKeyPress={(event) => {
+                  if (/[0-9]/.test(event.key)) {
+                    event.preventDefault();
+                  }
+                }}
+              />
+            </Col>
+            <Col>
+              <Form.Label>Apellidos del Socio</Form.Label>
+              <Form.Control
+                type="text"
+                id="inputApellidos"
+                placeholder="Ejemplo: Pérez"
+                name="apellidos"
+                value={values.apellidos}
+                onChange={handleInputChange}
+                onKeyPress={(event) => {
+                  if (/[0-9]/.test(event.key)) {
+                    event.preventDefault();
+                  }
+                }}
+              />
+            </Col>
+          </Row>
+          <Row className="mt-4 mb-4">
+            <Col>
+              <Form.Label>DNI del Socio</Form.Label>
+              <Form.Control
+                type="text"
+                id="inputDNI"
+                name="dni"
+                value={values.dni}
+                onChange={handleInputChange}
+                placeholder="00000000 (8 dígitos)"
+                maxLength="8"
+                pattern="[0-9]*"
+                onKeyPress={(event) => {
+                  if (!/[0-9]/.test(event.key)) {
+                    event.preventDefault();
+                  }
+                }}
+                minLength="8"
+              />
+            </Col>
+            <Col>
+              <Form.Label>Teléfono del Socio</Form.Label>
+              <Form.Control
+                type="text"
+                id="inputCelular"
+                name="celular"
+                value={values.celular}
+                onChange={handleInputChange}
+                placeholder="00000000 (9 dígitos)"
+                maxLength="9"
+                pattern="[0-9]*"
+                onKeyPress={(event) => {
+                  if (!/[0-9]/.test(event.key)) {
+                    event.preventDefault();
+                  }
+                }}
+                minLength="1"
+              />
+            </Col>
+          </Row>
+          <Form.Label>Fecha de Inicio</Form.Label>
+          <Form.Control
+            type="date"
+            onChange={handleInputChange}
+            name="fechaInicio"
+            value={values.fechaInicio}
+          />
+          <br></br>
+          <DropdownButton
+            id="dropdown-basic-button"
+            title="Seleccionar Plan"
+            onSelect={handleSelect}
+            name="tipoPlan"
+          >
+            <Dropdown.Item eventKey="Mensual">Mensual</Dropdown.Item>
+            <Dropdown.Item eventKey="Bimestral">Bimestral</Dropdown.Item>
+            <Dropdown.Item eventKey="Trimestral">Trimestral</Dropdown.Item>
+            <Dropdown.Item eventKey="Semestral">Semestral</Dropdown.Item>
+            <Dropdown.Item eventKey="Anual">Anual</Dropdown.Item>
+          </DropdownButton>
+          <br></br>
+          <h4>Plan seleccionado:</h4>
+          <p>{tipoPlanMostrar}</p>
+          {/* <p>
         {" "}
         💡 Para ver la fecha de fin de plan correctamente, debe seleccionar el
         tipo de plan <strong>dos veces.</strong>
       </p> */}
-      <h4>Fecha de Fin de Plan:</h4>
-      <p>{fechaFinMostrar}</p>
-      <Form.Label>Monto del Plan (S/.)</Form.Label>
-      <Form.Control
-        type="number"
-        id="inputMonto"
-        name="monto"
-        value={values.monto}
-        onChange={handleInputChange}
-        onKeyDown={blockInvalidChar}
-        min="1"
-      />
-      <br></br>
-      <Button variant="info" onClick={handleSubmit}>
-        Registrar
-      </Button>{" "}
-      <Button variant="success" onClick={generarBoleta}>
-        Generar Comprobante
-      </Button>{" "}
-    </>
+          <h4>Fecha de Fin de Plan:</h4>
+          <p>{fechaFinMostrar}</p>
+          <Form.Label>Monto del Plan (S/.)</Form.Label>
+          <Form.Control
+            type="number"
+            id="inputMonto"
+            name="monto"
+            value={values.monto}
+            onChange={handleInputChange}
+            onKeyDown={blockInvalidChar}
+            placeholder="S/. 00 nuevos soles o S/. 00.00 nuevos soles"
+          />
+          <br></br>
+          <div className="botones-registro">
+          <Button variant="info" onClick={handleSubmit}>
+            Registrar
+          </Button>{" "}
+          <Button variant="success" onClick={generarBoleta}>
+            Generar Comprobante
+          </Button>{" "}
+          </div>
+        </div>
+      </div>
   );
 };
 export default RegistroSocio;
