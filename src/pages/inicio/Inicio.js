@@ -18,7 +18,6 @@ const Inicio = () => {
       <Button variant="danger" onClick={handleClick}>
         Cerrar Sesión
       </Button>
-      <p>💡 Cualquier problema o duda, contactar: <a href="mailto:l.alvarezaguilar448@gmail.com">l.alvarezaguilar448@gmail.com</a> </p>
     </div>
   );
 };
